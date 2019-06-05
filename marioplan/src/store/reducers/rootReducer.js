@@ -3,9 +3,16 @@ import authReducer from "./authReducers";
 import { combineReducers } from "redux";
 
 
-const rootReducer = combineReducers({
+// const rootReducer = combineReducers({
+//     auth: authReducer,
+//     projectFromRootReducer: projectReducer
+// })
+
+// export default rootReducer;
+
+const rootReducer = combineReducers ({
     auth: authReducer,
-    project: projectReducer
+    projectFromRootReducer: projectReducer
 })
 
 export default rootReducer;
