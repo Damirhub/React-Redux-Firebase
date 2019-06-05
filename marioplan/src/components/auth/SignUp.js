@@ -13,7 +13,7 @@ const SignUp = () =>  {
 
     useEffect (() => {
         inputReference.current.focus()
-    })
+    }, [])
 
 
     const handleChange = (e) => {
