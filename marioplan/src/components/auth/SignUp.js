@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useRef, useEffect } from 'react';
 
 const SignUp = () =>  {
 
@@ -9,9 +9,15 @@ const SignUp = () =>  {
             lastName: ''
             });
 
+    const inputReference = useRef(null);
+
+    useEffect (() => {
+        inputReference.current.focus()
+    })
+
 
     const handleChange = (e) => {
-        console.log(  "****", e.target.value )
+        console.log(  "****", e.target.value, "****" )
         const {id, value} = e.target
         setValues( { ...values, [id] : value})
         // console.log(' e.target.values',  values);
@@ -20,7 +26,7 @@ const SignUp = () =>  {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(values.password)
+        console.log(values)
     }
 
         return (
@@ -28,7 +34,7 @@ const SignUp = () =>  {
                 <form onSubmit = { (e) => handleSubmit(e)} className = "white">
                     <h5 className = "grey-text text-darken-3">SignUp</h5>
                     <div className = "input-field">
-                        <label htmlFor = "email">Email</label>
+                        <label ref={inputReference} htmlFor = "email">Email</label>
                         <input type= "email" id = "email" onChange = {(e)=> handleChange(e)}/>
                     </div>
                     <div className = "input-field">
@@ -49,18 +55,17 @@ const SignUp = () =>  {
                 </form>
 
                 <h2> {
-                        Object.keys(values).map((mi, i )=> {
+                        Object.keys(values).map((keys, i )=> {
                             return (
-                                ( mi != "password") ? 
-                            <li>
-                                {mi} : {
+                                ( keys != "password") ? 
+                            <li key = {i}>
+                                {keys} : {
                                     Object.values(values)[i]}                    
                             </li>
-                            : <li>{mi} : {
+                            : <li key = {i} >{keys} : {
                                     Object.values(values)[i].replace(/[^]/g , '*')
                                 }  </li>
-
-                            )
+                                )
                             }   
                         )
                     
