@@ -11,6 +11,7 @@ class Dashboard extends Component {
                 <div className = "row">
                     <div className = "col s12 m6">
                         <ProjectList projectsToList = {choseNameProjects}/>
+                        <ProjectList />
                     </div>
                     <div className = "col s12 m5 offset-m1">
                         <Notifications />
@@ -24,9 +25,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        choseNameProjects: state.projectFromRootReducer.projectsFromProjectReducer
+        choseNameProjects: state.fromRootReducer.projectsFromProjectReducer
     }
-
 }
 
 export default connect(mapStateToProps)(Dashboard);
