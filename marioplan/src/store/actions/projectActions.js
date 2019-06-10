@@ -1,6 +1,3 @@
-
-
-
 export const createProjectAction = (semethinFromComponentProps) => {
     return (dispatch, getState, { getFirbase, getFirestore }) => {
         // make async call to database
@@ -23,7 +20,6 @@ export const createProjectAction = (semethinFromComponentProps) => {
         })
     }
 }
-
 
 export const testAction = (fomComponent) => { 
     return (dispatch, getState) => {
