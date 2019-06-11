@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import Notifications from './Notifications';
 import ProjectList from '../projects/ProjectList';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { Redirect } from 'react-router-dom'
 class Dashboard extends Component {
     render() {
         // console.log("redux props: ", this.props);
-        const { choseNameProjects } = this.props
+        const { choseNameProjects, auth } = this.props
+
+        if (!auth.uid) return <Redirect to = '/signin' />
         return (
             <div className = "dashboard cotainer">
                 <div className = "row">
@@ -24,9 +29,19 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        choseNameProjects: state.fromRootReducer.projectsFromProjectReducer
+        // choseNameProjects: state.fromRootReducer.projectsFromProjectReducer
+        choseNameProjects: state.firestore.ordered.projects,
+        auth : state.firebase.auth
     }
 }
 
-export default connect(mapStateToProps)(Dashboard);
+// export default connect(mapStateToProps)(Dashboard);
+
+export default compose( 
+    connect(mapStateToProps),
+    firestoreConnect ([
+        { collection: 'projects' }
+    ])
+)(Dashboard)

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { testAction } from '../../store/actions/projectActions';
 import { connect } from 'react-redux';
+import { signInAction } from '../../store/actions/authActions';
+import { Redirect } from 'react-router-dom'
 
 class SignIn extends Component {
     state = {
@@ -17,11 +19,15 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.useAction(this.state)
+        // this.props.useAction(this.state)
+        this.props.signIn(this.state)
         // console.log(this.state)
         
     }
     render() {
+        const { authError, uid } = this.props;
+        console.log('uid', uid);
+        if(uid) return <Redirect to = '/' />
         return (
             <div className = "container">
                 <form onSubmit = { (e) => this.handleSubmit(e)} className = "white">
@@ -36,6 +42,10 @@ class SignIn extends Component {
                     </div>
                     <div className = "input-field">
                         <button className = "btn pink lighten-1 z-depth-0">Login</button>
+
+                    <div className="red-text center">
+                        { authError ? <p>{authError}</p> :null }
+                    </div>
                     </div>
                 </form>
 
@@ -45,10 +55,25 @@ class SignIn extends Component {
 }
 
 
-const mapDispatchToProps = (dispatch) => {
-    return  {
-        useAction: (anyName) => dispatch(testAction(anyName))
+// const mapDispatchToProps = (dispatch) => {
+//     return  {
+//         useAction: (anyName) => dispatch(testAction(anyName))
+//     }
+// }
+
+// export default connect(null, mapDispatchToProps)(SignIn);
+
+const mapStateToProps = (state) => {
+    return{
+        authError: state.auth.authError, 
+        uid: state.firebase.auth.uid
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignIn);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn : (vhatevr) => dispatch(signInAction(vhatevr))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

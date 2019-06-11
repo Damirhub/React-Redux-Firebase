@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { signUpAction } from '../../store/actions/authActions';
 
-const SignUp = () =>  {
+const SignUp = ( { uid, newUser, authError} ) =>  {
 
+
+    
     const [values, setValues] = useState ({ 
             email: '',
             password: '',
@@ -26,8 +31,11 @@ const SignUp = () =>  {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(values)
+        console.log("SIGNEDUP VALUES:", values)
+        newUser(values)
     }
+
+        if(uid) return <Redirect to = '/create' />
 
         return (
             <div className = "container">
@@ -52,12 +60,16 @@ const SignUp = () =>  {
                     <div className = "input-field">
                         <button className = "btn pink lighten-1 z-depth-0">Login</button>
                     </div>
+                    <div className = "red-text center">
+                        { authError ? <p>{ authError }</p> : null }
+                    </div>
                 </form>
 
+                
                 <h2> {
                         Object.keys(values).map((keys, i )=> {
                             return (
-                                ( keys != "password") ? 
+                                ( keys !== "password") ? 
                             <li key = {i}>
                                 {keys} : {
                                     Object.values(values)[i]}                    
@@ -75,4 +87,18 @@ const SignUp = () =>  {
         );
 }
 
-export default SignUp;
+const mapStateToProps = (state) => {
+    return {
+        uid: state.firebase.auth.uid,
+        authError: state.auth.authError
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        newUser: (action) => dispatch(signUpAction(action))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

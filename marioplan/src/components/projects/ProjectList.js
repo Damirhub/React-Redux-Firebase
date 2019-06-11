@@ -1,8 +1,10 @@
 import React, {Fragment} from 'react';
 import ProjectSummary from './ProjectSummary';
 import ProjectDetails from './ProjectDetails';
+import { Link } from 'react-router-dom';
 
 const ProjectList = ({ projectsToList }) => {
+
     return (
         <Fragment >
             {/* <ProjectSummary />
@@ -13,7 +15,9 @@ const ProjectList = ({ projectsToList }) => {
             {
                 projectsToList && projectsToList.map(project => {
                     return (
-                        <ProjectSummary projectToSummary={project} key = {project.id} />
+                        <Link key = {project.id} to = {'/project/' + project.id}>
+                            <ProjectSummary projectToSummary={project} key = {project.id} />
+                        </Link>
                     )
                 })
             }
