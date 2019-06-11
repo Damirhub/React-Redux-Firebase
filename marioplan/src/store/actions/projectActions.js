@@ -1,12 +1,17 @@
+
 export const createProjectAction = (semethinFromComponentProps) => {
     return (dispatch, getState, { getFirbase, getFirestore }) => {
         // make async call to database
-        const firestore = getFirestore();
+        const firestore = getFirestore()
+
+        const profile = getState().firebase.profile
+        const authorId = getState().firebase.auth.uid
+
         firestore.collection('projects').add({
             ...semethinFromComponentProps, 
-            authorFirstName: 'NJet',
-            authorLastName: 'NJinja',
-            author: 12345,
+            authorFirstName: profile.firstName,
+            authorLastName: profile.lastName,
+            author: authorId,
             createdAt: new Date()
         })
         .then(()=> {

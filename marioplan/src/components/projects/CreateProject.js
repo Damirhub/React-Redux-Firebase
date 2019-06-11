@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { createProjectAction } from '../../store/actions/projectActions';
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 
 
 class CreateProject extends Component {
@@ -24,6 +24,7 @@ class CreateProject extends Component {
         // console.log(this.state)
         this.props.createProject ( this.state)
         // console.log("THIS.STATE:", this.state)
+        this.props.history.push('/')
     }
     render() {
         const {auth} = this.props
